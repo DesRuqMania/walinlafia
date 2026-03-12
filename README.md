@@ -165,9 +165,9 @@ Example with Formspree:
 ## Support
 
 For issues or questions, please contact:
-- Email: campaign@muhammadadamu.ng
-- Phone: +234 (XXX) XXX-XXXX
-
+- Email: desruqmania@gmail.com
+- Phone: +2349042809939
+- GitHub @desruqmania
 ---
 
 **Ready to deploy?** Follow the GitHub Pages setup instructions above to get your campaign website live!
