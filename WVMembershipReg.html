@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wali Vanguard Membership Registration</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #e67e22;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-section h2, .preview-section h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            padding: 5px 0;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .radio-group input {
+            width: auto;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #d35400;
+        }
+
+        /* Membership Card Styling */
+        .membership-card-container {
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        #membership-card {
+            width: 350px;
+            height: 220px;
+            background: linear-gradient(135deg, #2c3e50 0%, #000000 100%);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        #membership-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card-logo {
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+        }
+
+        .card-type {
+            font-size: 10px;
+            text-transform: uppercase;
+            background: var(--accent-color);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .card-body {
+            display: flex;
+            gap: 15px;
+        }
+
+        .photo-placeholder {
+            width: 80px;
+            height: 100px;
+            background: #eee;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 9px;
+            color: #aaa;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-footer {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        #download-btn {
+            background-color: var(--primary-color);
+        }
+
+        #download-btn:hover {
+            background-color: #1a252f;
+        }
+
+        .instructions {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Form Section -->
+        <div class="form-section">
+            <h2>Registration</h2>
+            <form id="registration-form">
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" placeholder="Your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" placeholder="Your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="Male" required> Male</label>
+                        <label><input type="radio" name="gender" value="Female"> Female</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lga">Select LGA *</label>
+                    <select id="lga" required>
+                        <option value="">Choose</option>
+                        <option value="Akwanga">Akwanga</option>
+                        <option value="Awe">Awe</option>
+                        <option value="Doma">Doma</option>
+                        <option value="Karu">Karu</option>
+                        <option value="Keana">Keana</option>
+                        <option value="Keffi">Keffi</option>
+                        <option value="Kokona">Kokona</option>
+                        <option value="Lafia">Lafia</option>
+                        <option value="Nasarawa">Nasarawa</option>
+                        <option value="Nasarawa Eggon">Nasarawa Eggon</option>
+                        <option value="Obi">Obi</option>
+                        <option value="Toto">Toto</option>
+                        <option value="Wamba">Wamba</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="photo">Passport Photograph (Preview Only)</label>
+                    <input type="file" id="photo" accept="image/*">
+                </div>
+                <button type="button" id="preview-btn">Update Preview</button>
+            </form>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="preview-section">
+            <h2>Card Preview</h2>
+            <div class="membership-card-container">
+                <div id="membership-card">
+                    <div class="card-header">
+                        <div class="card-logo">WALI VANGUARD</div>
+                        <div class="card-type">MEMBER</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="photo-placeholder" id="card-photo-container">
+                            <img id="card-photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='100' viewBox='0 0 80 100'%3E%3Crect width='80' height='100' fill='%23cccccc'/%3E%3Cpath d='M40 50c8.284 0 15-6.716 15-15s-6.716-15-15-15-15 6.716-15 15 6.716 15 15 15zm0 5c-11.046 0-20 8.954-20 20v5h40v-5c0-11.046-8.954-20-20-20z' fill='%23999999'/%3E%3C/svg%3E" alt="Member Photo">
+                        </div>
+                        <div class="member-info">
+                            <div class="info-label">Name</div>
+                            <div class="info-value" id="card-name">MEMBER NAME</div>
+                            
+                            <div class="info-label">Phone</div>
+                            <div class="info-value" id="card-phone">0800 000 0000</div>
+                            
+                            <div class="info-label">LGA</div>
+                            <div class="info-value" id="card-lga">LOCATION</div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        Wali Vanguard Membership Card
+                    </div>
+                </div>
+            </div>
+            <button type="button" id="download-btn">Download Card as Image</button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <p><strong>Note:</strong> Your information is processed locally for the card generation. Passport photographs are for preview/download purposes and are not saved to any server.</p>
+    </div>
+
+    <script>
+        const form = document.getElementById('registration-form');
+        const previewBtn = document.getElementById('preview-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const photoInput = document.getElementById('photo');
+
+        // Update preview functionality
+        function updatePreview() {
+            document.getElementById('card-name').textContent = document.getElementById('name').value || 'MEMBER NAME';
+            document.getElementById('card-phone').textContent = document.getElementById('phone').value || '0800 000 0000';
+            document.getElementById('card-lga').textContent = document.getElementById('lga').value || 'LOCATION';
+        }
+
+        // Handle photo upload
+        photoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('card-photo').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        previewBtn.addEventListener('click', updatePreview);
+
+        // Download card as image
+        downloadBtn.addEventListener('click', function() {
+            const card = document.getElementById('membership-card');
+            
+            // Ensure fonts and images are loaded
+            html2canvas(card, {
+                scale: 2, // Higher resolution
+                useCORS: true,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Wali-Vanguard-Member-Card.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+
+        // Live update for name as user types
+        document.getElementById('name').addEventListener('input', updatePreview);
+    </script>
+</body>
+</html>
